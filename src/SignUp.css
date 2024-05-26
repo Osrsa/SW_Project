@@ -36,6 +36,8 @@
 
 .form-container {
   border: 2px solid #000; /* 폼에만 테두리 설정 */
+  width: 370px;
+  height: 700px;
   padding: 80px; /* 내부 여백 설정 */
   border-radius: 20px; /* 테두리의 둥근 모서리 설정 */
 }

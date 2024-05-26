@@ -34,9 +34,10 @@ function SignUp() {
     const data = await response.json();
 
     if (response.ok) {
-      setMessage(data.message); // 회원가입 성공 메시지 설정
+      setMessage('회원가입에 성공했습니다!'); // 회원가입 성공 메시지 설정
       setError(''); // 에러 메시지 초기화
       navigate('/');  // '/'경로로 이동
+      alert('회원가입에 성공했습니다!');
 
     } else {
       setMessage(''); // 메시지 초기화

@@ -142,7 +142,7 @@
   height: 2.3354vw;
   left: 52.3418vw;
   top: 17.4557vw;
-  margin-top: 0vw;
+  margin-top: 1vw;
 }
 
 .form-group p {
@@ -202,7 +202,7 @@
   width: 20.5380vw;
   height: 2.8937vw;
   left: 0vw;
-  top: 5.5vw;
+  top: 7vw;
   gap: 0.2532vw;
   padding-left: 0.7vw;
   padding-right: 0.7vw;
@@ -221,4 +221,10 @@
   color: #fff;
   border: none;
   cursor: pointer;
+}
+
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 10px;
 }
