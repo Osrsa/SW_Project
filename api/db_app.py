@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, make_response
 import sqlite3
 
 app = Flask(__name__)
 
+# 회원가입 창에서 회원가입을 진행할 때
 @app.route('/api/signup', methods=['POST'])
 def signup():
     data = request.json
@@ -25,6 +26,7 @@ def signup():
     finally:
         conn.close()
 
+# 로그인 창에서 로그인을 진행할 때
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.json
@@ -49,7 +51,15 @@ def login():
     if stored_password != password:
         return jsonify({'error': '잘못된 비밀번호입니다'}), 400
     
-    return jsonify({'message': '로그인 성공'}), 200
+    resp = make_response(jsonify({'message': '로그인 성공'}), 200)
+    resp.set_cookie('auth_token', 'your_auth_token', httponly=True, secure=False)
+    return resp
+
+@app.route('/api/logout', methods=['POST'])
+def logout():
+    resp = make_response(jsonify({'message': '로그아웃 성공'}), 200)
+    resp.set_cookie('auth_token', '', expires=0, httponly=True, secure=False)
+    return resp
 
 
 if __name__ == "__main__":

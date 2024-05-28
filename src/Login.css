@@ -39,7 +39,7 @@
   gap: 15vw;
   padding-left: 1.5vw;
   padding-right: 1.5vw;
-  background: rgb(255, 0, 0);
+  background: rgb(147, 112, 219);
 }
 
 .header-text {
@@ -209,7 +209,7 @@
   padding-top: 0.3vw;
   padding-bottom: 0.3vw;
   border-radius: 0.2532vw;
-  background: #61dafb;
+  background: rgb(147, 112, 219);
   /* #c69affce */
   box-shadow: 0.0000vw 0.0316vw 0.0633vw 0 rgba(129, 150, 252, 0.05);
   flex-grow: 0;

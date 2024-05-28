@@ -31,6 +31,7 @@ function Login() {
     if(response.ok){
       setMessage('로그인에 성공했습니다!');
       setError(''); // 에러 메시지 초기화
+      alert('로그인에 성공했습니다!');
       navigate('/main');
     } else {
       setMessage('');
