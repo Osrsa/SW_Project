@@ -53,3 +53,32 @@
   margin-top: 60px; /* 버튼 위 여백 설정 */
   font-size: 20px;
 }
+
+.signup-button {
+  /* position: absolute; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18.7380vw;
+  height: 2.8937vw;
+  left: 0vw;
+  top: 7vw;
+  gap: 0.2532vw;
+  padding-left: 0.7vw;
+  padding-right: 0.7vw;
+  padding-top: 0.3vw;
+  padding-bottom: 0.3vw;
+  border-radius: 0.2532vw;
+  background: rgb(147, 112, 219);
+  /* #c69affce */
+  box-shadow: 0.0000vw 0.0316vw 0.0633vw 0 rgba(129, 150, 252, 0.05);
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 1.5823 vw;
+  font-weight: 500;
+  font-style: fantasy;
+  text-align: center;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}

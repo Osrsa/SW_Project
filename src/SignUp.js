@@ -97,7 +97,9 @@ function SignUp() {
                 required
               />
             </div>
-            <button type="submit">회원가입</button>
+
+            <button className = "signup-button" type="submit">회원가입</button>
+
           </form>
           {message && <p>{message}</p>}
           {error && <p>{error}</p>}

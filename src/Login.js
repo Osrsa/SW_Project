@@ -5,6 +5,8 @@ import mainPic1 from './main_pic1.png';
 import mainPic2 from './main_pic2.png';
 import mainPic3 from './main_pic3.jpeg';
 
+import Common_header from './common_header';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -53,7 +55,7 @@ function Login() {
   return (
     <div className="responsive-div" id="Naviagator">
 
-      <div className="header-container">
+      {/* <div className="header-container">
         <p className="kaushan-script header-text">
           Share Your Experience, Photo and Patience
         </p>
@@ -75,7 +77,8 @@ function Login() {
               <button>NYT</button>
             </a>
         </div>
-      </div>
+      </div> */}
+      <Common_header />
 
       <div id="Picture">
         <img src={mainPic1} className="main-pic main-pic1" alt="Main Pic 1"/>

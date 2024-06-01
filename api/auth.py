@@ -1,10 +1,11 @@
-from flask import Flask, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, make_response
+from create_db import get_db_connection
 import sqlite3
 
-app = Flask(__name__)
+auth = Blueprint('auth', __name__)
 
 # 회원가입 창에서 회원가입을 진행할 때
-@app.route('/api/signup', methods=['POST'])
+@auth.route('/api/signup', methods=['POST'])
 def signup():
     data = request.json
     email = data.get('email')
@@ -14,7 +15,7 @@ def signup():
     if not email or not password or not nickname:
         return jsonify({'error': '모든 필드를 입력해주세요!'}), 400
     
-    conn = sqlite3.connect('user.db')
+    conn = get_db_connection()
     cursor = conn.cursor()
 
     try:
@@ -27,7 +28,7 @@ def signup():
         conn.close()
 
 # 로그인 창에서 로그인을 진행할 때
-@app.route('/api/login', methods=['POST'])
+@auth.route('/api/login', methods=['POST'])
 def login():
     data = request.json
     email = data.get('email')
@@ -36,7 +37,7 @@ def login():
     if not email or not password:
         return jsonify({'error': '이메일과 비밀번호를 입력해주세요!'}), 400
     
-    conn = sqlite3.connect('user.db')
+    conn = get_db_connection()
     cursor = conn.cursor()
     
     cursor.execute('SELECT password FROM users WHERE email = ?', (email,))
@@ -55,12 +56,8 @@ def login():
     resp.set_cookie('auth_token', 'your_auth_token', httponly=True, secure=False)
     return resp
 
-@app.route('/api/logout', methods=['POST'])
+@auth.route('/api/logout', methods=['POST'])
 def logout():
     resp = make_response(jsonify({'message': '로그아웃 성공'}), 200)
     resp.set_cookie('auth_token', '', expires=0, httponly=True, secure=False)
     return resp
-
-
-if __name__ == "__main__":
-    app.run(port=5000, debug=True)
