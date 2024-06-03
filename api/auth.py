@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, make_response
+from flask import Blueprint, request, jsonify, session
 from create_db import get_db_connection
 import sqlite3
 
@@ -40,24 +40,37 @@ def login():
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    cursor.execute('SELECT password FROM users WHERE email = ?', (email,))
+    cursor.execute('SELECT password, nickname FROM users WHERE email = ?', (email,))
     result = cursor.fetchone()
     
     if result is None:
         conn.close()
         return jsonify({'error': '잘못된 이메일입니다'}), 400
     
-    stored_password = result[0]
+    stored_password, stored_nickname = result
+    
     conn.close()
     if stored_password != password:
         return jsonify({'error': '잘못된 비밀번호입니다'}), 400
     
-    resp = make_response(jsonify({'message': '로그인 성공'}), 200)
-    resp.set_cookie('auth_token', 'your_auth_token', httponly=True, secure=False)
+    session['email'] = email
+    session['nickname'] = stored_nickname
+    
+    resp = jsonify({'message': '로그인 성공'}), 200
     return resp
 
 @auth.route('/api/logout', methods=['POST'])
 def logout():
-    resp = make_response(jsonify({'message': '로그아웃 성공'}), 200)
-    resp.set_cookie('auth_token', '', expires=0, httponly=True, secure=False)
+    session.clear()     #세션 제거
+    resp = jsonify({'message': '로그아웃 성공'}), 200
     return resp
+
+@auth.route('/api/userinfo', methods=['GET'])
+def userinfo():
+    if 'email' in session and 'nickname' in session:
+        email = session['email']
+        nickname = session['nickname']
+        return jsonify({'email':email, 'nickname':nickname}), 200
+    else:
+        return jsonify({'error': '인증되지 않은 사용자'}), 401
+
