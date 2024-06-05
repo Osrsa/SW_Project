@@ -3,13 +3,13 @@
 @import "~slick-carousel/slick/slick-theme.css";
 
 .user-content {
-  width: 50%; /* 부모 요소의 너비에 맞춤 */
+  width: 100%;
+  /* width: 453.094;
+  height: 546.062; */
+
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-
-  /* 디버깅을 위해 구역 확인용으로 색 설정했습니다 */
-  background-color: rgb(167, 46, 46);
 
   margin-bottom: 1.5%;
 }
@@ -21,7 +21,7 @@
   display: flex; /* 플렉스 컨테이너로 설정 */
   flex-direction: column; /* 세로 방향으로 요소 배치 */
   align-items: center; /* 가운데 정렬 */
-  margin-right: 10px; /* 오른쪽 여백 설정 */
+  /* margin-right: 10px;  */
 }
 
 .content-box{

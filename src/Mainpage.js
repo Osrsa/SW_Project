@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import './Mainpage.css';
+import './DMmodal.css';
 
 import UserComponent from './usercomponent'; // userComponent 파일 import
 import UploadModal from './photoUpload';    // 업로드 모달 파일 import
@@ -18,17 +19,17 @@ import photo_example2 from './아이유 인천공항.jpg'
 import photo_example3 from './아이유 드림 네이버 포스트.jpeg'
 
 
-
-
 function Main() {
-
-  //서버에서 사용자 정보(닉네임) 가져오기
+  // 서버에서 사용자 정보(닉네임) 가져오기
   const [nickname, setNickname] = useState('');
   //모달 창 관리
   const [modalOpen, setModalOpen] = useState(false);
+  // 서버에서 사용자 닉네임 받아오기 -> userList 채울 때 사용
+  const [userList_name, setUserList_name] = useState([]);
 
   useEffect(()=>{
     fetchUserInfo();
+    fetchAllUserNickname();
   }, []);
  
   const fetchUserInfo = async () => {
@@ -40,9 +41,30 @@ function Main() {
         },
       });
 
-      if (response.ok) {
+      if (response.ok) { 
         const data = await response.json();
         setNickname(data.nickname);
+      } else {
+        console.error('사용자 정보를 가져오는 데 실패');
+      }
+    } catch (error) {
+      console.error('사용자 정보를 가져오는 중 오류 발생', error);
+    }
+  }
+  
+  // 서버에서 모든 사람의 닉네임 받아오기
+  const fetchAllUserNickname = async () => {
+    try {
+      const response = await fetch('/api/getusernickname', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUserList_name(data);
       } else {
         console.error('사용자 정보를 가져오는 데 실패');
       }
@@ -71,6 +93,7 @@ function Main() {
       console.error('로그아웃 중 오류 발생', error);
     }
   }
+
 
   //모달 열기
   const openModal = () => {
@@ -147,19 +170,10 @@ function Main() {
               />
             </div>
             
-            {/* 사용자 리스트가 들어가는 곳 */}
             <div className='userList'>
-              <UserComponent profileImage={profile} username="사용자1" />
-              <UserComponent profileImage={profile} username="사용자2" />
-              <UserComponent profileImage={profile} username="사용자3" />
-              <UserComponent profileImage={profile} username="사용자4" />
-              <UserComponent profileImage={profile} username="사용자5" />
-              <UserComponent profileImage={profile} username="사용자6" />
-              <UserComponent profileImage={profile} username="사용자7" />
-              <UserComponent profileImage={profile} username="사용자8" />
-              <UserComponent profileImage={profile} username="사용자9" />
-              <UserComponent profileImage={profile} username="사용자10" />
-              <p>사용자 리스트</p>
+              {userList_name.map((user, index) => {
+                return <UserComponent key={user.id} profileImage={profile} username={user.nickname} />;
+              })}
             </div>
 
           </div>

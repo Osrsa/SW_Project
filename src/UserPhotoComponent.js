@@ -1,9 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import Slider from 'react-slick'; // 사진 슬라이더
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
 import './UserPhotoComponent.css';
+
+import DM_button from './DM_button.png';
+import DMModal from './DMmodal';
+
+import option_button from './option_button.png';
 
 function UserPhotoComponent({ profileImage, username, photos, hashtags, description }) {
   const settings = {
@@ -14,6 +19,20 @@ function UserPhotoComponent({ profileImage, username, photos, hashtags, descript
     slidesToScroll: 1
   };
 
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const handleDMClick = () => {
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
+
+  const handleOptionClick = () => {
+    alert('옵션 버튼 클릭');
+  }
+
   return(
     <div className='user-content'>
       {/* 사진이 들어가는 곳 */}
@@ -22,7 +41,11 @@ function UserPhotoComponent({ profileImage, username, photos, hashtags, descript
         <div className='content-box'>
           <img src={profileImage} className='profile' alt='profile' />
           <p>{username}</p>
-          <p>제일 오른쪽에 옵션 버튼 넣을 예정입니다</p>
+
+          <img src={DM_button} className='DM-button' alt='DM' onClick={handleDMClick}/> 
+          <DMModal isOpen={modalIsOpen} closeModal={closeModal} username={username} />
+
+          <img src={option_button} className='option-button' alt='option' onClick={handleOptionClick}/>
         </div>
 
         {/* 사진이 표시되는 곳 */}

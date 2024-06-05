@@ -54,30 +54,6 @@ function Login() {
 
   return (
     <div className="responsive-div" id="Naviagator">
-
-      {/* <div className="header-container">
-        <p className="kaushan-script header-text">
-          Share Your Experience, Photo and Patience
-        </p>
-      
-        <div className="button-container">
-            <a href="about.html" className="button">
-              <button>About US</button>
-            </a>
-
-            <Link to = '/signup' className='button'>
-              <button>Sign up</button>
-            </Link>
-
-            <a href="signin.html" className="button">
-              <button>Sign In</button>
-            </a>
-
-            <a href="nyt.html" className="button">
-              <button>NYT</button>
-            </a>
-        </div>
-      </div> */}
       <Common_header />
 
       <div id="Picture">
@@ -86,40 +62,47 @@ function Login() {
         <img src={mainPic3} className="main-pic main-pic3" alt="Main Pic 3"/>
       </div>
 
-      <form id="loginForm" onSubmit={handleSubmit}>
-        <div className="form-group email-group">
-          <p>Email Address</p>
+      <div className='formdiv'>
+        <form id="loginForm" onSubmit={handleSubmit}>
+          <div className="email-group">
+            <p>Email Address</p>
 
-          <div className="input-container">
-            <input 
-              id="email_input" 
-              type="email" 
-              placeholder="SWEngeneering@dgu.ac.kr"
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <div className="input-container">
+              <input 
+                id="email_input" 
+                type="email" 
+                placeholder="SWEngeneering@dgu.ac.kr"
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="form-group password-group">
-          <p>Password</p>
-          <div className="input-container">
-            <input 
-              id="password_input" 
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+          <div className="password-group">
+            <p>Password</p>
+            <div className="input-container">
+              <input 
+                id="password_input" 
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="form-group password-group">
+        <div className="button-group">
           <button type="submit" className="login-button">
               로그인
           </button>
+          <p> 또는 </p>
+          <button type="submit" className="guest-login-button">
+              게스트 로그인
+          </button>
         </div>
       </form>
+    </div>     
+         
       {message && <p>{message}</p>}
       {error && <p>{error}</p>}
 

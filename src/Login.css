@@ -122,31 +122,54 @@
   top: 20.1076vw;
 }
 
-.form-group {
+.form-div {
   position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   gap: 0.1vw; /* Reduced gap */
+
+  width: 500px;
+  height: 100%;
+  background-color: bisque;
 }
 
 .email-group {
+  position: absolute;
+
   width: 20.5380vw;
-  height: 2.3354vw;
+  height: 30%;
   left: 52.2468vw;
-  top: 13.2658vw;
+  top: 12.2658vw;
+
 }
 
 .password-group {
+  position: absolute;
+
+  width: 20.5380vw;
+  height: 30%;
+  left: 52.3418vw;
+  top: 55%;
+  /* margin-top: 1vw; */
+}
+
+.button-group{
+  position: absolute;
+
   width: 20.5380vw;
   height: 2.3354vw;
   left: 52.3418vw;
   top: 17.4557vw;
-  margin-top: 1vw;
+  margin-top: 30vw;
 }
 
-.form-group p {
+.button-group p{
+  margin: 0px;
+}
+
+.email-group p {
   align-self: stretch;
   flex-grow: 0;
   flex-shrink: 0;
@@ -156,7 +179,7 @@
   text-align: left;
   color: #000000;
   background-color: #ffffff;
-  margin-bottom: 0.1vw;
+  /* margin-bottom: 0.1vw; */
 }
 
 .input-container {
@@ -224,8 +247,41 @@
   cursor: pointer;
 }
 
+.guest-login-button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20.5380vw;
+  height: 2.8937vw;
+  left: 0vw;
+  top: 10vw;
+  gap: 0.2532vw;
+  padding-left: 0.7vw;
+  padding-right: 0.7vw;
+  padding-top: 0.3vw;
+  padding-bottom: 0.3vw;
+  border-radius: 0.2532vw;
+  background: rgb(147, 112, 219);
+  /* #c69affce */
+  box-shadow: 0.0000vw 0.0316vw 0.0633vw 0 rgba(129, 150, 252, 0.05);
+  flex-grow: 0;
+  flex-shrink: 0;
+  font-size: 1.5823vw;
+  font-weight: 500;
+  font-style: fantasy;
+  text-align: center;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
 .error-message {
   color: red;
   font-size: 14px;
   margin-top: 10px;
+}
+
+#loginForm {
+  height: 600px; /* 예시 높이 설정 */
 }
