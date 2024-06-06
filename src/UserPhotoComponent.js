@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Slider from 'react-slick'; // 사진 슬라이더
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import { Dropdown } from 'react-bootstrap'  //DropStrap
 
 import './UserPhotoComponent.css';
 
@@ -20,6 +21,7 @@ function UserPhotoComponent({ profileImage, username, photos, hashtags, descript
   };
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [optionVisible, setOptionVisible] = useState(false);
 
   const handleDMClick = () => {
     setModalIsOpen(true);
@@ -29,9 +31,18 @@ function UserPhotoComponent({ profileImage, username, photos, hashtags, descript
     setModalIsOpen(false);
   };
 
-  const handleOptionClick = () => {
-    alert('옵션 버튼 클릭');
-  }
+  const handleOptionToggle = () => {
+    // 옵션 표시 여부를 토글
+    setOptionVisible(!optionVisible);
+  };
+
+  const handleEditClick = () => {
+    alert('수정 버튼 클릭');
+  };
+
+  const handleDeleteClick = () => {
+    alert('삭제 버튼 클릭');
+  };
 
   return(
     <div className='user-content'>
@@ -45,7 +56,15 @@ function UserPhotoComponent({ profileImage, username, photos, hashtags, descript
           <img src={DM_button} className='DM-button' alt='DM' onClick={handleDMClick}/> 
           <DMModal isOpen={modalIsOpen} closeModal={closeModal} username={username} />
 
-          <img src={option_button} className='option-button' alt='option' onClick={handleOptionClick}/>
+          {optionVisible && (
+            <div className="options-menu">
+              <button className='edit-button' onClick={handleEditClick}>수정</button>
+              <button className='delete-button' onClick={handleDeleteClick}>삭제</button>
+            </div>
+          )}
+
+          <img src={option_button} className='option-button' alt='option' onClick={handleOptionToggle}/>
+
         </div>
 
         {/* 사진이 표시되는 곳 */}

@@ -17,7 +17,8 @@ def init_db():
         CREATE TABLE IF NOT EXISTS photos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
-            photo_url TEXT NOT NULL,
+            photoname TEXT NOT NULL,
+            photo_data BLOB NOT NULL,
             description TEXT,
             upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY(user_id) REFERENCES users(id)

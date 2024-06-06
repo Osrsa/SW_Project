@@ -28,8 +28,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  max-width: 3150px;
+  width: 912px;           /* 동적으로 사진 받기 때문에 확인 필요 */
+  /* max-width: 3150px; */
   height: 40px;
   gap: 1vw;
   /* padding-left: 0.5vw;

@@ -40,21 +40,24 @@ def login():
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    cursor.execute('SELECT password, nickname FROM users WHERE email = ?', (email,))
+    cursor.execute('SELECT id, password, nickname FROM users WHERE email = ?', (email,))
     result = cursor.fetchone()
     
     if result is None:
         conn.close()
         return jsonify({'error': '잘못된 이메일입니다'}), 400
     
-    stored_password, stored_nickname = result
+    user_id, stored_password, stored_nickname = result
     
     conn.close()
     if stored_password != password:
         return jsonify({'error': '잘못된 비밀번호입니다'}), 400
     
+    session['user_id'] = user_id
     session['email'] = email
     session['nickname'] = stored_nickname
+    
+    print(f'Logged in user: {session}')  # 디버그를 위해 세션 정보 출력
     
     resp = jsonify({'message': '로그인 성공'}), 200
     return resp

@@ -17,6 +17,7 @@ import profile from './profile_default.jpg';
 import photo_example1 from './아이유 수능 응원 메세지.jpeg'
 import photo_example2 from './아이유 인천공항.jpg'
 import photo_example3 from './아이유 드림 네이버 포스트.jpeg'
+import { upload } from '@testing-library/user-event/dist/upload';
 
 
 function Main() {
@@ -26,6 +27,8 @@ function Main() {
   const [modalOpen, setModalOpen] = useState(false);
   // 서버에서 사용자 닉네임 받아오기 -> userList 채울 때 사용
   const [userList_name, setUserList_name] = useState([]);
+  //업로드 사진 목록
+  const [uploadPhotos, setUploadPhotos] = useState([]);
 
   useEffect(()=>{
     fetchUserInfo();
@@ -71,7 +74,7 @@ function Main() {
     } catch (error) {
       console.error('사용자 정보를 가져오는 중 오류 발생', error);
     }
-  }
+  };
 
   // 로그아웃 처리
   const handleLogout = async () => {
@@ -92,7 +95,32 @@ function Main() {
     } catch (error) {
       console.error('로그아웃 중 오류 발생', error);
     }
-  }
+  };
+
+  // 업로드 사진 목록 가져오기
+  const fetchUploadPhotos = async () => {
+    try {
+      const response = await fetch('/api/getuploadphotos', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setUploadPhotos(data);
+      } else {
+        console.error('사진 목록 가져오는데 실패했습니다');
+      }
+    } catch (error) {
+      console.error('사진 목록 가져오는 중 오류 발생', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUploadPhotos();
+  }, []);   //컴포넌트가 처음 렌더링될 때 호출
 
 
   //모달 열기
@@ -145,13 +173,25 @@ function Main() {
           <div className='main-user-content'>
             <div className='main-userPhoto'>
 
-              <UserPhotoComponent 
+              {uploadPhotos.map(photo => (
+                <div key={photo.id}>
+                  <UserPhotoComponent
+                    profileImage={profile}
+                    username={photo.nickname}
+                    photos={`data:image/jpeg;base64,${photo.photo_data}`}
+                    hashtags={photo.hashtags}
+                    description={photo.description}
+                  />
+                </div>
+              ))}
+
+              {/* <UserPhotoComponent 
                 profileImage={profile}
                 username="유애나"
                 photos={photo_example2}
                 hashtags={['아이유']}
                 description="아이유 인천공항 (사진에 대한 설명이 들어갑니다)"
-              />
+              /> */}
 
               <UserPhotoComponent 
                 profileImage={profile}
