@@ -90,7 +90,7 @@ def get_upload_photos():
         print('오류 발생:', str(e))
         return jsonify({'error': str(e)}), 500
 
-@upload.route('/api/photo/<int:photo_id>', methods=['GET', 'PUT'])
+@upload.route('/api/photo/<int:photo_id>', methods=['GET', 'PUT', 'DELETE'])
 def update_photo(photo_id):
     if 'user_id' not in session:
         return jsonify({'error': 'User not logged in'}), 403
@@ -133,6 +133,7 @@ def update_photo(photo_id):
 
         finally:
             conn.close()
+    
         
     if request.method == 'PUT':
         data = request.json
@@ -157,6 +158,29 @@ def update_photo(photo_id):
 
             conn.commit()
             return jsonify({'message': 'Photo updated successfully'}), 200
+
+        except Exception as e:
+            conn.rollback()
+            print('오류 발생:', str(e))
+            return jsonify({'error': str(e)}), 500
+
+        finally:
+            conn.close()
+    
+    
+    if request.method == 'DELETE':
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+            
+             # 키워드 삭제
+            cursor.execute('DELETE FROM keywords WHERE photo_id = ?', (photo_id,))
+
+            # 사진 삭제
+            cursor.execute('DELETE FROM photos WHERE id = ? AND user_id = ?', (photo_id, session['user_id']))
+
+            conn.commit()
+            return jsonify({'message': 'Photo deleted successfully'}), 200
 
         except Exception as e:
             conn.rollback()

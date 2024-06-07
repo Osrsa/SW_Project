@@ -22,8 +22,8 @@ function UserPhotoComponent({ photoId, profileImage, username, photos, hashtags,
     slidesToScroll: 1
   };
 
-  const [DMmodalIsOpen, setDMModalIsOpen] = useState(false);
-  const [PhotomodalIsOpen, setPhotoModalIsOpen] = useState(false);
+  const [DMmodalIsOpen, setDMModalIsOpen] = useState(false);            //DM 모달
+  const [PhotomodalIsOpen, setPhotoModalIsOpen] = useState(false);      //Photo 모달
   const [optionVisible, setOptionVisible] = useState(false);
 
   const handleDMClick = () => {
@@ -48,8 +48,25 @@ function UserPhotoComponent({ photoId, profileImage, username, photos, hashtags,
     setPhotoModalIsOpen(false);
   };
 
-  const handleDeleteClick = () => {
-    alert('삭제 버튼 클릭');
+  const handleDeleteClick = async () => {
+    if (window.confirm('이 게시물을 삭제하시겠습니까?')){
+      try {
+        const response = await fetch(`/api/photo/${photoId}`, {
+          method: 'DELETE',
+          credentials: 'include'
+        })
+
+        if (response.ok) {
+          alert('게시물이 삭제되었습니다');
+          window.location.reload();
+        } else {
+          console.error('게시물 삭제 실패')
+        }
+      } catch (error) {
+        console.error('게시물 삭제 중 오류 발생', error)
+      }
+    }
+    
   };
 
   return(
