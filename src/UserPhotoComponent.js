@@ -9,9 +9,11 @@ import './UserPhotoComponent.css';
 import DM_button from './DM_button.png';
 import DMModal from './DMmodal';
 
+import PhotoEdit from './photoEdit';
+
 import option_button from './option_button.png';
 
-function UserPhotoComponent({ profileImage, username, photos, hashtags, description }) {
+function UserPhotoComponent({ photoId, profileImage, username, photos, hashtags, description }) {
   const settings = {
     dots: true,
     // infinite: true,
@@ -20,16 +22,18 @@ function UserPhotoComponent({ profileImage, username, photos, hashtags, descript
     slidesToScroll: 1
   };
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [DMmodalIsOpen, setDMModalIsOpen] = useState(false);
+  const [PhotomodalIsOpen, setPhotoModalIsOpen] = useState(false);
   const [optionVisible, setOptionVisible] = useState(false);
 
   const handleDMClick = () => {
-    setModalIsOpen(true);
+    setDMModalIsOpen(true);
   };
 
-  const closeModal = () => {
-    setModalIsOpen(false);
+  const closeDMModal = () => {
+    setDMModalIsOpen(false);
   };
+
 
   const handleOptionToggle = () => {
     // 옵션 표시 여부를 토글
@@ -37,7 +41,11 @@ function UserPhotoComponent({ profileImage, username, photos, hashtags, descript
   };
 
   const handleEditClick = () => {
-    alert('수정 버튼 클릭');
+    setPhotoModalIsOpen(true);
+  };
+
+  const closePhotoModal = () => {
+    setPhotoModalIsOpen(false);
   };
 
   const handleDeleteClick = () => {
@@ -54,7 +62,7 @@ function UserPhotoComponent({ profileImage, username, photos, hashtags, descript
           <p>{username}</p>
 
           <img src={DM_button} className='DM-button' alt='DM' onClick={handleDMClick}/> 
-          <DMModal isOpen={modalIsOpen} closeModal={closeModal} username={username} />
+          <DMModal isOpen={DMmodalIsOpen} closeModal={closeDMModal} username={username} />
 
           {optionVisible && (
             <div className="options-menu">
@@ -92,6 +100,8 @@ function UserPhotoComponent({ profileImage, username, photos, hashtags, descript
           <p>{description}</p>
         </div>
       </div>
+      {/* photoEdit 모달 레이어 창 */}
+      {PhotomodalIsOpen && <PhotoEdit photoId={photoId} closeModal={closePhotoModal} />}
     </div>
   );
 }

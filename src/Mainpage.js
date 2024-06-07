@@ -7,6 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import './Mainpage.css';
 import './DMmodal.css';
 
+
 import UserComponent from './usercomponent'; // userComponent 파일 import
 import UploadModal from './photoUpload';    // 업로드 모달 파일 import
 import UserPhotoComponent from './UserPhotoComponent';  //userPhotoComponent 파일 import
@@ -176,6 +177,7 @@ function Main() {
               {uploadPhotos.map(photo => (
                 <div key={photo.id}>
                   <UserPhotoComponent
+                    photoId={photo.id}
                     profileImage={profile}
                     username={photo.nickname}
                     photos={`data:image/jpeg;base64,${photo.photo_data}`}

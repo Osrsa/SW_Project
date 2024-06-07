@@ -89,3 +89,79 @@ def get_upload_photos():
     except Exception as e:
         print('오류 발생:', str(e))
         return jsonify({'error': str(e)}), 500
+
+@upload.route('/api/photo/<int:photo_id>', methods=['GET', 'PUT'])
+def update_photo(photo_id):
+    if 'user_id' not in session:
+        return jsonify({'error': 'User not logged in'}), 403
+    
+    if request.method == 'GET':
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+
+            cursor.execute("""
+                SELECT description, photo_data
+                FROM photos
+                WHERE id = ? AND user_id = ?
+            """, (photo_id, session['user_id']))
+
+            photo_data = cursor.fetchone()
+
+            if photo_data:
+                # 키워드 가져오기
+                cursor.execute("""
+                    SELECT keyword
+                    FROM keywords
+                    WHERE photo_id = ?
+                """, (photo_id,))
+                keywords = [row[0] for row in cursor.fetchall()]
+                
+                response_data = {
+                    'description': photo_data[0],
+                    'photo_data': base64.b64encode(photo_data[1]).decode('utf-8'),  # 이미지 데이터를 base64로 인코딩하여 클라이언트에게 반환
+                    'keywords': keywords
+                }
+                # print('서버 응답 데이터:', response_data)
+                return jsonify(response_data), 200
+            else:
+                return jsonify({'error': 'Photo not found or unauthorized access'}), 404
+
+        except Exception as e:
+            print('오류 발생:', str(e))
+            return jsonify({'error': str(e)}), 500
+
+        finally:
+            conn.close()
+        
+    if request.method == 'PUT':
+        data = request.json
+        description = data.get('description', '')
+        keywords = data.get('keywords', [])     #keywords는 리스트로 처리
+
+        try:
+            conn = get_db_connection()
+            cursor = conn.cursor()
+
+            # description과 upload_date를 업데이트
+            cursor.execute("""
+                UPDATE photos
+                SET description = ?, upload_date = datetime('now')
+                WHERE id = ? AND user_id = ?
+            """, (description, photo_id, session['user_id']))
+
+            # 키워드 업데이트를 위해 기존 키워드 삭제 후 새로운 키워드 삽입
+            cursor.execute('DELETE FROM keywords WHERE photo_id = ?', (photo_id,))
+            for keyword in keywords:
+                cursor.execute('INSERT INTO keywords (photo_id, keyword) VALUES (?, ?)', (photo_id, keyword.strip()))
+
+            conn.commit()
+            return jsonify({'message': 'Photo updated successfully'}), 200
+
+        except Exception as e:
+            conn.rollback()
+            print('오류 발생:', str(e))
+            return jsonify({'error': str(e)}), 500
+
+        finally:
+            conn.close()
