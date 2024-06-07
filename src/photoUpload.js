@@ -26,6 +26,7 @@ function UploadModal({ closeModal }){
 
             if(response.ok){
                 closeModal();   //모달 닫기
+                window.location.reload();
             } else {
                 console.error('사진 업로드에 실패했습니다');
             }

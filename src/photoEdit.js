@@ -64,6 +64,7 @@ function PhotoEdit({ photoId, closeModal }) {
                 const result = await response.json();
                 console.log(result);
                 closeModal();
+                window.location.reload();
             } else {
                 console.error('게시물 수정에 실패했습니다');
             }
