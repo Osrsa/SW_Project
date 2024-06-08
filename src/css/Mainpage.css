@@ -4,13 +4,13 @@
 @import "~slick-carousel/slick/slick.css";
 @import "~slick-carousel/slick/slick-theme.css";
 
-.header-container {
+.main-header-container {
   display: flex;
   justify-content: flex-start;
   align-items: flex-end;
-  width: 100%;
+  width: 96.9%;
   max-width: 3150px;
-  height: auto;
+  height: 40px;
   gap: 15vw;
   padding-left: 1.5vw;
   padding-right: 1.5vw;
@@ -29,25 +29,33 @@
   margin: 0%;
 }
 
-.button-container {
+.main-button-container {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-end;
+  /* align-items: flex-end; */
+  align-items: center;
   width: 40%;
   max-width: 3150px;
-  height: auto;
+  height: 100%;
   gap: 1vw;
   padding-left: 0.5vw;
   padding-right: 0.5vw;
   background: rgb(255, 255, 255);
-  margin-left: 13vw;
+  /* margin-left: 13vw; */
+
+  align-self: stretch;
 }
 
-.button {
+.main-button-container p{
+  display: flex;
+  margin : 0px;
+}
+
+.main-header-button {
   text-decoration: none;
 } 
 
-.button button{
+.main-header-button button{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -157,8 +165,8 @@
 
 
 .userList {
-  width: 25%; /* 너비를 반으로 설정하고 여백을 고려하여 계산 */
-  height: 600px;
+  width: 20%; /* 너비를 반으로 설정하고 여백을 고려하여 계산 */
+  height: 400px;
   border: 1px solid black;
   margin-left: 20px;
 

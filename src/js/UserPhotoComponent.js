@@ -2,18 +2,25 @@ import React, {useState} from "react";
 import Slider from 'react-slick'; // 사진 슬라이더
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import { Dropdown } from 'react-bootstrap'  //DropStrap
 
 import './UserPhotoComponent.css';
 
 import DM_button from './DM_button.png';
 import DMModal from './DMmodal';
-
 import PhotoEdit from './photoEdit';
 
 import option_button from './option_button.png';
+{/* <UserPhotoComponent 
+                current_user={nickname}
+                profileImage={profile}
+                posted_username="유애나"
+                photos={photo_example2}
+                hashtags={['아이유']}
+                description="아이유 인천공항 (사진에 대한 설명이 들어갑니다)"
+              />
+               */}
 
-function UserPhotoComponent({ photoId, profileImage, username, photos, hashtags, description }) {
+function UserPhotoComponent({ photoId, current_user, profileImage, posted_username, photos, hashtags, description }) {
   const settings = {
     dots: true,
     // infinite: true,
@@ -69,6 +76,7 @@ function UserPhotoComponent({ photoId, profileImage, username, photos, hashtags,
     
   };
 
+
   return(
     <div className='user-content'>
       {/* 사진이 들어가는 곳 */}
@@ -76,10 +84,10 @@ function UserPhotoComponent({ photoId, profileImage, username, photos, hashtags,
         {/* 상단에 유저 프로필, 이름, 게시글에 대한 옵션 */}
         <div className='content-box'>
           <img src={profileImage} className='profile' alt='profile' />
-          <p>{username}</p>
+          <p>{posted_username}</p>
 
           <img src={DM_button} className='DM-button' alt='DM' onClick={handleDMClick}/> 
-          <DMModal isOpen={DMmodalIsOpen} closeModal={closeDMModal} username={username} />
+          <DMModal isOpen={DMmodalIsOpen} closeModal={closeDMModal} current_username = {current_user} receiver_username={posted_username} />
 
           {optionVisible && (
             <div className="options-menu">
@@ -89,7 +97,6 @@ function UserPhotoComponent({ photoId, profileImage, username, photos, hashtags,
           )}
 
           <img src={option_button} className='option-button' alt='option' onClick={handleOptionToggle}/>
-
         </div>
 
         {/* 사진이 표시되는 곳 */}
@@ -117,6 +124,7 @@ function UserPhotoComponent({ photoId, profileImage, username, photos, hashtags,
           <p>{description}</p>
         </div>
       </div>
+
       {/* photoEdit 모달 레이어 창 */}
       {PhotomodalIsOpen && <PhotoEdit photoId={photoId} closeModal={closePhotoModal} />}
     </div>

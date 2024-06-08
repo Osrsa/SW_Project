@@ -29,7 +29,7 @@
   gap: 15vw;
   padding-left: 1.5vw;
   padding-right: 1.5vw;
-  background: rgb(19, 4, 48);
+  background: rgb(147, 112, 219);
 }
 
 .header-text {
@@ -44,10 +44,10 @@
   margin: 0%;
 }
 
-.button-container {
+.header-button-container {
   display: flex;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: center;
   width: 40%;
   max-width: 3150px;
   height: auto;
@@ -55,7 +55,9 @@
   padding-left: 0.5vw;
   padding-right: 0.5vw;
   background: rgb(255, 255, 255);
-  margin-left: 13vw;
+  /* margin-left: 13vw; */
+
+  align-self: stretch   ;
 }
 
 .button {

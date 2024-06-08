@@ -50,7 +50,7 @@
 .form-container button {
   display: block;
   margin: 0 auto;
-  margin-top: 60px; /* 버튼 위 여백 설정 */
+  margin-top: 60px;
   font-size: 20px;
 }
 

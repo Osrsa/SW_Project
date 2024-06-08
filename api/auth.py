@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, session
 from create_db import get_db_connection
 import sqlite3
+from datetime import datetime
 
 auth = Blueprint('auth', __name__)
 
@@ -69,7 +70,7 @@ def logout():
     resp = jsonify({'message': '로그아웃 성공'}), 200
     return resp
 
-#로그인 된 사용자 닉네임 가져오기
+
 @auth.route('/api/userinfo', methods=['GET'])
 def userinfo():
     if 'email' in session and 'nickname' in session:
@@ -79,7 +80,6 @@ def userinfo():
     else:
         return jsonify({'error': '인증되지 않은 사용자'}), 401
 
-# 유저 리스트에 채울 이름 가져오기
 @auth.route('/api/getusernickname', methods=['GET'])
 def get_user_nickname():
     if 'email' not in session:
@@ -89,15 +89,7 @@ def get_user_nickname():
     cursor = conn.cursor()
 
     # 현재 접속한 사용자의 이메일로 ID 조회
-    current_user_email = session['email']
-    cursor.execute('SELECT id FROM users WHERE email = ?', (current_user_email,))
-    current_user_id = cursor.fetchone()
-    
-    if current_user_id is None:
-        conn.close()
-        return jsonify({'error': '사용자를 찾을 수 없음'}), 404
-
-    current_user_id = current_user_id[0]
+    current_user_id = session['user_id']
 
     # 현재 접속한 사용자를 제외하고 사용자 목록 조회
     cursor.execute('SELECT id, nickname FROM users WHERE id != ? ORDER BY id ASC', (current_user_id,))
@@ -106,5 +98,3 @@ def get_user_nickname():
     
     users_list = [{'id': user[0], 'nickname': user[1]} for user in results]
     return jsonify(users_list)
-
-

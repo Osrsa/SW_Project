@@ -7,10 +7,10 @@ import "slick-carousel/slick/slick-theme.css";
 import './Mainpage.css';
 import './DMmodal.css';
 
-
 import UserComponent from './usercomponent'; // userComponent 파일 import
 import UploadModal from './photoUpload';    // 업로드 모달 파일 import
 import UserPhotoComponent from './UserPhotoComponent';  //userPhotoComponent 파일 import
+import DMboxModal from './DMboxModal';  // DMboxModal 파일 import
 
 // 이미지 import
 import searchicon from './search_icon.png';
@@ -18,14 +18,15 @@ import profile from './profile_default.jpg';
 import photo_example1 from './아이유 수능 응원 메세지.jpeg'
 import photo_example2 from './아이유 인천공항.jpg'
 import photo_example3 from './아이유 드림 네이버 포스트.jpeg'
-import { upload } from '@testing-library/user-event/dist/upload';
 
 
 function Main() {
   // 서버에서 사용자 정보(닉네임) 가져오기
   const [nickname, setNickname] = useState('');
-  //모달 창 관리
+  //모달 창 관리 - 사진 업로드 창
   const [modalOpen, setModalOpen] = useState(false);
+  //모달 창 관리
+  const [modalDMboxIsOpen, setDMboxModalIsOpen] = useState(false);
   // 서버에서 사용자 닉네임 받아오기 -> userList 채울 때 사용
   const [userList_name, setUserList_name] = useState([]);
   //업로드 사진 목록
@@ -34,6 +35,7 @@ function Main() {
   useEffect(()=>{
     fetchUserInfo();
     fetchAllUserNickname();
+    fetchUploadPhotos();
   }, []);
  
   const fetchUserInfo = async () => {
@@ -75,7 +77,7 @@ function Main() {
     } catch (error) {
       console.error('사용자 정보를 가져오는 중 오류 발생', error);
     }
-  };
+  }
 
   // 로그아웃 처리
   const handleLogout = async () => {
@@ -96,33 +98,28 @@ function Main() {
     } catch (error) {
       console.error('로그아웃 중 오류 발생', error);
     }
-  };
+  }
 
   // 업로드 사진 목록 가져오기
-  const fetchUploadPhotos = async () => {
-    try {
-      const response = await fetch('/api/getuploadphotos', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUploadPhotos(data);
-      } else {
-        console.error('사진 목록 가져오는데 실패했습니다');
-      }
-    } catch (error) {
-      console.error('사진 목록 가져오는 중 오류 발생', error);
+const fetchUploadPhotos = async () => {
+  try {
+  const response = await fetch('/api/getuploadphotos', {
+    method: 'GET',
+    headers: {
+    'Content-Type': 'application/json',
+    },
+  });
+  
+  if (response.ok) {
+    const data = await response.json();
+    setUploadPhotos(data);
+    } else {
+      console.error('사진 목록 가져오는데 실패했습니다');
     }
+  } catch (error) {
+    console.error('사진 목록 가져오는 중 오류 발생', error);
+  }
   };
-
-  useEffect(() => {
-    fetchUploadPhotos();
-  }, []);   //컴포넌트가 처음 렌더링될 때 호출
-
 
   //모달 열기
   const openModal = () => {
@@ -134,6 +131,13 @@ function Main() {
     setModalOpen(false);
   };
 
+  const handleDMboxclick = () => {
+    setDMboxModalIsOpen(true);
+  }
+
+  const closeDMboxModal = () => {
+    setDMboxModalIsOpen(false);
+  }
 
   // 사진 배열 생성 후 사진 슬라이더로 활용
   const example_photos = [photo_example1, photo_example2, photo_example3]; // 사진 배열
@@ -148,18 +152,20 @@ function Main() {
 
   return (
     <div>
-      <div className='header-container'>
+      <div className='main-header-container'>
         <p className='kaushan-script header-text'>
           Share Your Experience, Photo and Patience
         </p>
 
-        <div className="button-container">
-            <button className="button" onClick={handleLogout}>Log Out</button>
-            <button className="button" onClick={openModal}>UpLoad</button>
+        <div className='main-button-container'>
+          <p>{nickname} 님</p>
+          <button className="main-header-button" onClick={handleDMboxclick}>DM</button>
+          <button className="main-header-button" onClick={openModal}>UpLoad</button>
+          <button className="main-header-button" onClick={handleLogout}>Log Out</button>        
         </div>
-
       </div>
 
+      <DMboxModal isOpen = {modalDMboxIsOpen} closeModal={closeDMboxModal} current_username={nickname}/>
       {modalOpen && <UploadModal closeModal={closeModal} />}
 
       <div className='main-div' id='maindiv'>
@@ -174,41 +180,27 @@ function Main() {
           <div className='main-user-content'>
             <div className='main-userPhoto'>
 
-              {uploadPhotos.map(photo => (
+              {/* {uploadPhotos.map(photo => (
                 <div key={photo.id}>
                   <UserPhotoComponent
                     photoId={photo.id}
+                    current_user={nickname}
                     profileImage={profile}
-                    username={photo.nickname}
+                    poseted_username={photo.nickname}
                     photos={`data:image/jpeg;base64,${photo.photo_data}`}
                     hashtags={photo.hashtags}
                     description={photo.description}
                   />
                 </div>
-              ))}
+              ))} */}
 
-              {/* <UserPhotoComponent 
+              <UserPhotoComponent 
+                current_user={nickname}
                 profileImage={profile}
-                username="유애나"
+                posted_username="유애나"
                 photos={photo_example2}
                 hashtags={['아이유']}
                 description="아이유 인천공항 (사진에 대한 설명이 들어갑니다)"
-              /> */}
-
-              <UserPhotoComponent 
-                profileImage={profile}
-                username="유애나222222222"
-                photos={photo_example1}
-                hashtags={['IU']}
-                description="아이유 사진 2 (사진에 대한 설명이 들어갑니다)"
-              />
-
-              <UserPhotoComponent 
-                profileImage={profile}
-                username="유애나3333333"
-                photos={photo_example3}
-                hashtags={['IU', '아이유']}
-                description="아이유 사진 3 (사진에 대한 설명이 들어갑니다)"
               />
             </div>
             

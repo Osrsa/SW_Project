@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useActionData, useNavigate } from 'react-router-dom';
+
 import './Login.css';
 import mainPic1 from './main_pic1.png';
 import mainPic2 from './main_pic2.png';
@@ -62,11 +63,10 @@ function Login() {
         <img src={mainPic3} className="main-pic main-pic3" alt="Main Pic 3"/>
       </div>
 
-      <div className='formdiv'>
-        <form id="loginForm" onSubmit={handleSubmit}>
+      <form id="loginForm" onSubmit={handleSubmit}>
+        <div className="login-form-container">
           <div className="email-group">
             <p>Email Address</p>
-
             <div className="input-container">
               <input 
                 id="email_input" 
@@ -91,18 +91,16 @@ function Login() {
             </div>
           </div>
 
-        <div className="button-group">
-          <button type="submit" className="login-button">
-              로그인
-          </button>
-          <p> 또는 </p>
-          <button type="submit" className="guest-login-button">
-              게스트 로그인
-          </button>
+          <div className="button-group-container">
+            <div className="login-button-group">
+              <button type="submit" className="login-button">로그인</button>
+              <p>또는</p>
+              <button type="submit" className="guest-login-button">게스트 로그인</button>
+            </div>
+          </div>
         </div>
       </form>
-    </div>     
-         
+
       {message && <p>{message}</p>}
       {error && <p>{error}</p>}
 

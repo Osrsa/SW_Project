@@ -17,8 +17,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS photos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER NOT NULL,
-            photoname TEXT NOT NULL,
-            photo_data BLOB NOT NULL,
+            photo_url TEXT NOT NULL,
             description TEXT,
             upload_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY(user_id) REFERENCES users(id)
@@ -32,6 +31,20 @@ def init_db():
             keyword TEXT NOT NULL,
             FOREIGN KEY(photo_id) REFERENCES photos(id)
         ) 
+    ''')
+
+    # message 관련 db 생성  
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS messages (
+            message_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sender_id INTEGER NOT NULL,
+            receiver_id INTEGER NOT NULL,
+            message TEXT NOT NULL,
+            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            status TEXT DEFAULT 'unread',
+            FOREIGN KEY(sender_id) REFERENCES users(id),
+            FOREIGN KEY(receiver_id) REFERENCES users(id)
+        )
     ''')
     
     print("Table created successfully")
